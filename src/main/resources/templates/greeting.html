@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head"></head>
+
+<body style="background-color: #FFE4B5">
+<nav th:replace="fragments/navbar :: navbar"></nav>
+
+
+<div class="container mt-5" >
+<p th:text="'Hello, ' + ${name} + '!'"></p>
+</div>
+
+<div align="center" class="mt-5">
+    <h1>The best way to find cheap flights</h1>
+</div>
+
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <input type="text" class="form-control" placeholder="From" name="from">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="Where" name="where">
+        </div>
+        <div class="col">
+            <input type="text" class="form-control" placeholder="When" name="when">
+        </div>
+        <div class="col">
+            <input type="date" class="form-control" placeholder="Date" name="date">
+        </div>
+
+    </div>
+</div>
+
+<div align="center" class="mt-4">
+    <button type="button" class="btn btn-secondary btn-lg" style="background-color: #2F4F4F; box-shadow: 0 0 5px rgba(0,0,0,0.5)">Find Tickets</button>
+</div>
+
+<div th:replace="fragments/script :: scripts"></div>
+
+</body>
+</html>
