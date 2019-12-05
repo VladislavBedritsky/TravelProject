@@ -1,56 +1,21 @@
 <!DOCTYPE HTML>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<html xmlns:th="http://www.thymeleaf.org">
 
-    <!-- совместимость со всеми устройствами -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<head th:replace="fragments/head :: head">
 </head>
+
+
 <body>
 
-<div class="card"style="height: 200px; background: url('https://static.schools.by/images/header-bg/img-35.jpg') fixed;background-size: cover; ">
-    <div class="card-body">
-
-        <form th:action="@{/main}" class="mt-4">
-            <div class="row">
-                <div class="col"></div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="From" name="from">
-                </div>
-                <div class="col">
-                    <input type="text" class="form-control" placeholder="Where" name="where">
-                </div>
-                <div class="col">
-                    <input type="date" class="form-control" placeholder="Date" name="date">
-                </div>
-                <div class="col">
-                    <input type="time" class="form-control" placeholder="Time" name="time">
-                </div>
-                <div class="col"></div>
-            </div>
-            <div align="center" class="mt-4">
-                <button type="submit" class="btn btn-secondary btn-lg" style="background-color: #2F4F4F; box-shadow: 0 0 5px rgba(0,0,0,0.5)">Find Tickets</button>
-            </div>
-        </form>
-
-
-    </div>
-</div>
+<nav th:replace="fragments/navbar :: navbar"></nav>
 
 <div class="container mt-4" th:each="trip:${trips}">
     <div class="row mx-auto" style="height:250px ; width:800px; border-radius:20px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
         <div style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
 
-            <a th:href="@{/user/like/{id}(id=${trip.id})}">
-            <i th:if="${trip.isQ(currentUser) == false}" class="large material-icons ml-2 mt-1" style="font-size: 2.1em;color: #FFFF00">star_border</i>
-            <i th:if="${trip.isQ(currentUser)}" class="large material-icons ml-2 mt-2" style="font-size: 2.3em;color: #FFD700">star</i>
-            </a>
+            <i class="large material-icons ml-2 mt-1" style="font-size: 2.1em;color: yellow;">star_border</i>
+            <i th:if="$isLiked" class="large material-icons ml-2 mt-2" style="font-size: 2.3em;color: #FFD700">star</i>
 
             <a href="https://www.kalendarik.com.ua/online"><i class="large material-icons ml-2 pb-1" style="font-size: 2.0em;color: #696969; float:right">calendar_today</i></a>
 
@@ -83,7 +48,7 @@
                 <div class="col align-self-center" align="center" >
 
                     <button style="border-radius:10px;background-color:#4682B4; box-shadow:0 0 10px rgba(0,0,0,0.5);" type="" class="btn" data-toggle="modal" th:attr="data-target='#exampleModal'+${trip.id }">
-                      <h6 class="my-auto" style="color:#FFFFE0">Details</h6>
+                        <h6 class="my-auto" style="color:#FFFFE0">Details</h6>
                     </button>
 
                     <!-- Modal -->
@@ -129,7 +94,7 @@
                 </div>
                 <div class="col align-self-center" align="center">
                     <h4 th:text="${trip.cityWhere.name}">
-                       Where
+                        Where
                     </h4>
                 </div>
             </div>
@@ -139,7 +104,7 @@
                 </div>
                 <div class="col" align="center">
                     <i th:text="${trip.time}">
-                            time
+                        time
                     </i>
                 </div>
                 <div class="col mt-4 pt-1" align="center">
@@ -148,7 +113,7 @@
             </div>
             <div class="row" style="height: 35px; margin-top:5px;">
                 <img class="mx-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStniYFbUf1jZYcHCVR9X5U-iOxE8NqPPrAH-zH9c--IeBMCshC&s"
-                style="height:30px;width: 550px">
+                     style="height:30px;width: 550px">
             </div>
             <div class="row" style="height: 70px; margin-top:5px">
 
@@ -179,55 +144,3 @@
 </div>
 
 
-<!--<div class="container mt-5" >-->
-<!--    <div class="col ml-auto">-->
-
-<!--        <div class="row">-->
-<!--            <div class="col">-->
-<!--                <h1 class="mx-auto">-->
-<!--                    Trips-->
-<!--                </h1>-->
-<!--            </div>-->
-<!--            <div class="col mt-3" align="right">-->
-<!--                <a type="button" class="btn btn-secondary" href="/"-->
-<!--                   style="background-color: #2F4F4F; box-shadow: 0 0 5px rgba(0,0,0,0.5); color:white;">-->
-<!--                    Main page</span>-->
-<!--                </a>-->
-<!--            </div>-->
-<!--        </div>-->
-
-
-
-<!--        <table class="table mt-2 mx-auto" >-->
-
-<!--            <thead class="thead-dark">-->
-<!--            <tr >-->
-<!--                <th>From</th>-->
-<!--                <th>Where</th>-->
-<!--                <th>Data</th>-->
-<!--                <th>Time</th>-->
-<!--            </tr>-->
-<!--            </thead>-->
-
-<!--            <tbody>-->
-<!--            <tr th:each="trip:${trips}">-->
-<!--                <td th:text="${trip.cityFrom.name}"></td>-->
-<!--                <td th:text="${trip.cityWhere.name}"></td>-->
-<!--                <td th:text="${trip.date}"></td>-->
-<!--                <td th:text="${trip.time}"></td>-->
-<!--            </tr>-->
-<!--            </tbody>-->
-<!--        </table>-->
-<!--    </div>-->
-<!--</div>-->
-
-
-
-
-
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="https://use.fontawesome.com/3108c34e76.js"></script>
-</body>
-</html>

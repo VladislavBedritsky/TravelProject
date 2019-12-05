@@ -1,37 +1,44 @@
 package org.htp.ex.controller;
 
-import org.htp.ex.model.Role;
 import org.htp.ex.model.User;
-import org.htp.ex.service.UserService;
+import org.htp.ex.service.CityService;
+import org.htp.ex.service.TripService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Map;
 
 @Controller
+@RequestMapping("/main")
 public class MainController {
 
     @Autowired
-    private UserService userService;
+    private TripService tripService;
+    @Autowired
+    private CityService cityService;
 
-    @GetMapping("/")
-    public String greeting(@RequestParam(name="name", required=false, defaultValue="Guest") String name, Model model,
-                           @AuthenticationPrincipal User user, Map<String, Object> model1) {
-        model.addAttribute("name", name);
-        model.addAttribute("authUser",user);
-        if (user != null) {
-            userService.userRole(user,model1);
+    @GetMapping
+    public String getMain (
+            @AuthenticationPrincipal User user,
+            @RequestParam String from,
+            @RequestParam String where,
+            @RequestParam String date,
+            @RequestParam String time,
+            Map<String,Object> model) {
+
+        if (!tripService.searchError(from, where, date, time) || tripService.findTrips(from, where, date, time) == null) {
+            model.put("searchError", "Sorry, nothing was found according to your information.");
+            return "main";
         }
-        return "greeting";
-    }
 
-    @GetMapping("/main")
-    public String main () {
+        model.put("trips",tripService.findTripsAndCompareByDateAndTime(
+                tripService.findTrips(from,where,date,time)));
 
+        model.put("currentUser",user);
 
         return "main";
     }

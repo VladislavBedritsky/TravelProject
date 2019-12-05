@@ -6,6 +6,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -27,6 +29,14 @@ public class User implements UserDetails {
     @CollectionTable(name="user_role",joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="favorites_trips",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name="trip_id")}
+    )
+    private Set<Trip> favoriteTrips = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -100,6 +110,14 @@ public class User implements UserDetails {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public Set<Trip> getFavoriteTrips() {
+        return favoriteTrips;
+    }
+
+    public void setFavoriteTrips(Set<Trip> favoriteTrips) {
+        this.favoriteTrips = favoriteTrips;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -125,4 +143,16 @@ public class User implements UserDetails {
         return getRoles();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id.equals(user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
 }
