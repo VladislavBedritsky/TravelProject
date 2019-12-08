@@ -1,22 +1,52 @@
 <!DOCTYPE HTML>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-<head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
-    <!-- совместимость со всеми устройствами -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<head th:replace="fragments/head :: head">
 </head>
-<body>
+<body style="width:1350px;">
 
-<div class="card"style="height: 200px; background: url('https://static.schools.by/images/header-bg/img-35.jpg') fixed;background-size: cover; ">
+
+
+<div class="card" style="box-shadow:0 0 10px rgba(0,0,0,0.5);height: 250px; background: url('https://static.schools.by/images/header-bg/img-35.jpg') fixed;background-size: cover; ">
+    <div class="navbar navbar-expand-lg row">
+        <div class="col">
+            <a class="navbar-brand ml-5 " href="/" style="color:black;font-family: Bradley Hand, cursive; font-size:30px">
+                TravellSales
+            </a>
+        </div>
+
+        <div class="navbar-brand col" href="#" style="color:black">
+            <div class="row">
+                <div class="col" align="center">
+                    <a class="navbar-brand" href="/user/ticket" style="color:black">My Tickets
+                        <i th:if="${size_tick == 0}" class="large material-icons " style="color: white">account_balance_wallet</i>
+                        <i th:if="${size_tick > 0}" class="large material-icons " style="color: green">account_balance_wallet</i>
+                    </a>
+
+                    <a class="navbar-brand " href="/user/favorite_trips" style="color:black">
+                        Favorite trips
+                        <i  th:if="${size_fav == 0}" class="large material-icons " style="color: #FFFF00">star_border</i>
+                        <i th:if="${size_fav > 0}" class="large material-icons " style="color: #FFD700">star</i>
+                    </a>
+
+
+                </div>
+
+            </div>
+        </div>
+        <div class="col" align="right">
+            <form th:action="@{/logout}" method="post">
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <button  type="submit" class="btn btn-secondary" style="background-color: #708090; box-shadow: 0 0 5px rgba(0,0,0,0.5)">
+                    Sign out
+                </button>
+            </form>
+        </div>
+
+    </div>
+
     <div class="card-body">
 
-        <form th:action="@{/main}" class="mt-4">
+        <form th:action="@{/main}" class="mt-2">
             <div class="row">
                 <div class="col"></div>
                 <div class="col">
@@ -37,19 +67,18 @@
                 <button type="submit" class="btn btn-secondary btn-lg" style="background-color: #2F4F4F; box-shadow: 0 0 5px rgba(0,0,0,0.5)">Find Tickets</button>
             </div>
         </form>
-
-
     </div>
 </div>
 
-<div class="container mt-4" th:each="trip:${trips}">
+
+<div th:if="${trip.tripInfo.amountComfortPlace+trip.tripInfo.amountEconomyPlace > 0}" class="container mt-4" th:each="trip:${trips}">
     <div class="row mx-auto" style="height:250px ; width:800px; border-radius:20px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
-        <div style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
+        <div th:if="${trip.userPurchase(currentUser) == false}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
 
             <a th:href="@{/user/like/{id}(id=${trip.id})}">
-            <i th:if="${trip.isQ(currentUser) == false}" class="large material-icons ml-2 mt-1" style="font-size: 2.1em;color: #FFFF00">star_border</i>
-            <i th:if="${trip.isQ(currentUser)}" class="large material-icons ml-2 mt-2" style="font-size: 2.3em;color: #FFD700">star</i>
+            <i th:if="${trip.isQ(currentUser) == false}" class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: #FFFF00">star_half</i>
+            <i th:if="${trip.isQ(currentUser)}" class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: #FFD700">star</i>
             </a>
 
             <a href="https://www.kalendarik.com.ua/online"><i class="large material-icons ml-2 pb-1" style="font-size: 2.0em;color: #696969; float:right">calendar_today</i></a>
@@ -58,31 +87,31 @@
 
                 <div class="btn my-auto mx-auto col "  >
 
-                    <i class="large material-icons ml-2 mt-2" style="font-size: 2.5em;color:#FF6347">shopping_cart</i>
+                    <a th:href="@{/user/ticket/economy/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" style="font-size: 2.5em; color:#FF6347; text-decoration: none;">shopping_cart</a>
 
-                    <i style="color:#2F4F4F">Economy(<b style="color:black" th:text="${trip.tripInfo.priceEconomyPlace}+'$'"></b>)
+                    <i style="color:#2F4F4F;">Economy(<b style="color:black" th:text="${trip.tripInfo.priceEconomyPlace}+'$'"></b>)
                     </i>
                 </div>
                 <div class="btn my-auto col">
 
-                    <i class="large material-icons ml-2 mt-2" style="font-size: 2.5em;color:#FF8C00 ">credit_card</i>
+                    <a th:href="@{/user/ticket/comfort/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" style="font-size: 2.5em; color:#FF8C00;text-decoration: none; ">credit_card</a>
                     <i style="color:#2F4F4F">Comfort(<b style="color:black" th:text="${trip.tripInfo.priceComfortPlace}+'$'"></b>)</i>
                 </div>
 
             </div>
             <div class="row" style="height: 70px;">
                 <div class="col align-self-center" align="center">
-                    <p th:text="'Sits left: '+${trip.tripInfo.amountComfortPlace}" class="my-2" style="color:#2F4F4F"></p>
+                    <p th:text="'Sits left: '+${trip.tripInfo.amountEconomyPlace}" class="my-2" style="color:#2F4F4F"></p>
                 </div>
 
                 <div class="col align-self-center" align="center">
-                    <p th:text="'Sits left: '+${trip.tripInfo.amountEconomyPlace}"  class="my-2" style="color:#2F4F4F"></p>
+                    <p th:text="'Sits left: '+${trip.tripInfo.amountComfortPlace}"  class="my-2" style="color:#2F4F4F"></p>
                 </div>
             </div>
             <div class="row" style="height: 50px;">
                 <div class="col align-self-center" align="center" >
 
-                    <button style="border-radius:10px;background-color:#4682B4; box-shadow:0 0 10px rgba(0,0,0,0.5);" type="" class="btn" data-toggle="modal" th:attr="data-target='#exampleModal'+${trip.id }">
+                    <button style="border-radius:10px;background-color:#4682B4; box-shadow:0 0 10px rgba(0,0,0,0.5);" class="btn" data-toggle="modal" th:attr="data-target='#exampleModal'+${trip.id }">
                       <h6 class="my-auto" style="color:#FFFFE0">Details</h6>
                     </button>
 
@@ -100,10 +129,10 @@
 
                                     <p th:text="'Driver: '+${trip.tripInfo.driverName}"></p>
                                     <p th:text="'Car: '+${trip.tripInfo.modelCar}"></p>
-                                    <p th:text="'Comfort places: '+${trip.tripInfo.amountComfortPlace}"></p>
-                                    <p th:text="'Comfort price: '+${trip.tripInfo.priceComfortPlace}+'$'"></p>
-                                    <p th:text="'Economy places: '+${trip.tripInfo.amountEconomyPlace}"></p>
-                                    <p th:text="'Economy price: '+${trip.tripInfo.priceEconomyPlace}+'$'"></p>
+                                    <p th:text="'Comfort sits left: '+${trip.tripInfo.amountComfortPlace}"></p>
+                                    <p th:text="'Comfort price per sit: '+${trip.tripInfo.priceComfortPlace}+'$'"></p>
+                                    <p th:text="'Economy sits left: '+${trip.tripInfo.amountEconomyPlace}"></p>
+                                    <p th:text="'Economy price per sit: '+${trip.tripInfo.priceEconomyPlace}+'$'"></p>
 
                                 </div>
                             </div>
@@ -114,6 +143,38 @@
             </div>
 
         </div>
+
+        <div th:if="${trip.userPurchase(currentUser)}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
+ background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
+
+            <div class="row">
+                <div class="col" align="center">
+                    <i class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: green">done_all</i>
+                </div>
+            </div>
+
+            <div class="row" style=" height:50px">
+                <div class="col" align="center">
+                    Thank you for your purchase!
+                </div>
+            </div>
+
+            <div class="row" style=" height:50px">
+                <div class="col" align="center">
+                    <i class="material-icons mt-2" style="font-size:2.1em">
+                        help_outline
+                    </i>
+                </div>
+            </div>
+
+            <div class="row" style=" height:50px">
+                <div class="col" align="center">
+                    To manage the trip, go to your <a href = "user/ticket">tickets</a>
+                </div>
+            </div>
+
+        </div>
+
         <div style="width: 550px; ">
 
             <div class="row" style="height: 70px; margin-top:10px">
@@ -143,7 +204,7 @@
                     </i>
                 </div>
                 <div class="col mt-4 pt-1" align="center">
-                    <i class="large material-icons" style="font-size: 1.6em;color: green;">offline_pin</i>
+                    <i class="large material-icons" style="font-size: 1.6em;color: green;">where_to_vote</i>
                 </div>
             </div>
             <div class="row" style="height: 35px; margin-top:5px;">
@@ -158,9 +219,15 @@
                     </i>
                 </div>
                 <div class="col align-self-start" align="center">
-                    <h4>
-                        S
-                    </h4>
+                    <i class="material-icons">
+                        restaurant_menu
+                    </i>
+                    <i class="material-icons">
+                        local_hospital
+                    </i>
+                    <i class="material-icons">
+                        smoke_free
+                    </i>
                 </div>
                 <div class="col align-self-center mr-2 mb-2" align="center">
                     <h5 >
@@ -172,7 +239,6 @@
         </div>
 
     </div>
-
 </div>
 <div th:if="${searchError}" class="alert alert-danger mt-2" role="alert">
     <p th:text="${searchError}" align="center"></p>

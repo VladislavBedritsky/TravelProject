@@ -13,6 +13,9 @@ public interface TripDAO extends CrudRepository<Trip,Long> {
 
     List<Trip> findByDate (String date);
 
+    @Query("select t from Trip t join t.userFavorites u where u.id = :id")
+    Iterable<Trip> findUserFavoriteTrips (@Param("id") Integer id);
+
     @Query("select t from Trip t where t.cityFrom.name = :name1 and t.cityWhere.name = :name2")
     Iterable<Trip> findByCityFromAndCityWhere (@Param("name1") String from, @Param("name2") String where);
 

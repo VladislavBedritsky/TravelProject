@@ -1,12 +1,16 @@
 package org.htp.ex.controller;
 
+import org.htp.ex.model.Ticket;
 import org.htp.ex.model.Trip;
 import org.htp.ex.model.User;
+import org.htp.ex.service.MainService;
+import org.htp.ex.service.TicketService;
 import org.htp.ex.service.TripService;
 import org.htp.ex.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +21,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Map;
 
 @Controller
-@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/user")
 public class UserController {
 
@@ -25,13 +28,19 @@ public class UserController {
     private UserService userService;
     @Autowired
     private TripService tripService;
+    @Autowired
+    private MainService mainService;
+    @Autowired
+    private TicketService ticketService;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String getUserList (Model model) {
         model.addAttribute("users",userService.findAll());
         return "userList";
     }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String saveUserByHisRole(
             @RequestParam Map<String,String> form,
@@ -42,16 +51,20 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @GetMapping("user/favorites")
-    public String getUserFavoritesTrips (Model model) {
+    @GetMapping("/favorite_trips")
+    public String getUserFavoritesTrips (
+            @AuthenticationPrincipal User user,
+            Model model) {
 
-
+        model.addAttribute("q",true);
+        model.addAttribute("authUser",user);
+        model.addAttribute("user_fav_trips",tripService.findUserFavoriteTrips(user.getId()));
 
         return "favorites";
     }
 
     @GetMapping("like/{id}")
-    public String addFavoriteTrip (
+    public String addAndRemoveFavoriteTrip (
             @AuthenticationPrincipal User user,
             @PathVariable Integer id,
             Map <String, Object> model,
@@ -62,17 +75,42 @@ public class UserController {
         Trip trip = tripService.findById(id);
 
         if (trip.getUserFavorites().contains(user)) {
+            userService.dislike(user,trip);
             tripService.dislike(user,trip);
         }else {
+            userService.like(user,trip);
             tripService.like(user,trip);
         }
 
-        UriComponents components = UriComponentsBuilder.fromHttpUrl(referer).build();
-
-        components.getQueryParams().entrySet().forEach(pair ->
-                redirectAttributes.addAttribute(pair.getKey(),pair.getValue()));
-
-        return "redirect:"+components.getPath();
+        return "redirect:" + mainService.uriComponents(redirectAttributes,referer).getPath();
     }
+
+    @GetMapping("/ticket")
+    public String getUserTickets (
+            @AuthenticationPrincipal User user,
+            Model model
+    ){
+        model.addAttribute("q",true);
+        model.addAttribute("user_tickets",user.getTickets());
+        model.addAttribute("authUser",user);
+
+        return "userTickets";
+    }
+
+    @GetMapping("/ticket/{type}/{id}")
+    public String addAndRemoveTicket (
+            @AuthenticationPrincipal User user,
+            @PathVariable String type,
+            @PathVariable Integer id,
+            RedirectAttributes redirectAttributes,
+            @RequestHeader(required = false) String referer
+    ){
+
+        Trip trip = tripService.findById(id);
+        ticketService.addTicket(type,trip,user);
+
+        return "redirect:"+mainService.uriComponents(redirectAttributes,referer).getPath();
+    }
+
 }
 

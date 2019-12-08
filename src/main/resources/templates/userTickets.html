@@ -1,0 +1,114 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/head :: head">
+</head>
+
+
+<body>
+
+<nav th:replace="fragments/navbar :: navbar"></nav>
+
+<div class="container mt-4" th:each="ticket:${user_tickets}">
+    <div class="row mx-auto" style="height:250px ; width:800px; border-radius:20px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
+        <div  style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
+ background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
+
+            <div class="row">
+                <div class="col" align="center">
+                    <i class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: green">done_all</i>
+                </div>
+            </div>
+
+            <div class="row" style=" height:50px">
+                <div class="col" align="center">
+                    Ticket
+                </div>
+            </div>
+
+            <div class="row" style=" height:50px">
+                <div class="col" align="center">
+                    <p th:text="'Class:'+${ticket.type}"></p>
+                    <p th:text="'Total price:'+${ticket.price}+'$'"></p>
+                </div>
+            </div>
+
+            <div class="row mt-4" style=" height:50px;">
+                <div class="col align-self-center" align="center">
+<!--                    <p>You can also refuse to go.</p>-->
+<!--                    <a th:href="@{/user/ticket/{type}/{id}(type=${ticket.type},id=${ticket.tripT.id})}">-->
+<!--                    <i class="material-icons">-->
+<!--                        cancel_presentation-->
+<!--                    </i>-->
+<!--                    </a>-->
+                    <p class="mt-2">Good luck and enjoy your trip!</p>
+                </div>
+            </div>
+
+        </div>
+        <div style="width: 550px; ">
+
+            <div class="row" style="height: 70px; margin-top:10px">
+                <div class="col align-self-center" align="center">
+                    <h4 th:text="${ticket.tripT.cityFrom.name}">
+                        From
+                    </h4>
+                </div>
+                <div class="col align-self-end" align="center">
+                    <i th:text="${ticket.tripT.date}">
+                        data
+                    </i>
+                </div>
+                <div class="col align-self-center" align="center">
+                    <h4 th:text="${ticket.tripT.cityWhere.name}">
+                        Where
+                    </h4>
+                </div>
+            </div>
+            <div class="row" style="height: 35px; margin-top:5px">
+                <div class="col mt-4" align="center">
+                    <i class="large material-icons"  style="font-size: 1.8em;color: #585858;">directions_car</i>
+                </div>
+                <div class="col" align="center">
+                    <i th:text="${ticket.tripT.time}">
+                        time
+                    </i>
+                </div>
+                <div class="col mt-4 pt-1" align="center">
+                    <i class="large material-icons" style="font-size: 1.6em;color: green;">where_to_vote</i>
+                </div>
+            </div>
+            <div class="row" style="height: 35px; margin-top:5px;">
+                <img class="mx-auto" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcStniYFbUf1jZYcHCVR9X5U-iOxE8NqPPrAH-zH9c--IeBMCshC&s"
+                     style="height:30px;width: 550px">
+            </div>
+            <div class="row" style="height: 70px; margin-top:5px">
+
+                <div class="col align-self-center" align="center">
+                    <i>
+                        Driver: <b style="color:red" th:text="${ticket.tripT.tripInfo.driverName}"></b>
+                    </i>
+                </div>
+                <div class="col align-self-start" align="center">
+                    <i class="material-icons">
+                        restaurant_menu
+                    </i>
+                    <i class="material-icons">
+                        local_hospital
+                    </i>
+                    <i class="material-icons">
+                        smoke_free
+                    </i>
+                </div>
+                <div class="col align-self-center mr-2 mb-2" align="center">
+                    <h5 >
+                        <i th:text="${ticket.tripT.tripInfo.modelCar}"></i>
+                    </h5>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>

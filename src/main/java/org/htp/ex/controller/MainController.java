@@ -3,9 +3,11 @@ package org.htp.ex.controller;
 import org.htp.ex.model.User;
 import org.htp.ex.service.CityService;
 import org.htp.ex.service.TripService;
+import org.htp.ex.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,8 @@ public class MainController {
     private TripService tripService;
     @Autowired
     private CityService cityService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public String getMain (
@@ -39,6 +43,8 @@ public class MainController {
                 tripService.findTrips(from,where,date,time)));
 
         model.put("currentUser",user);
+        model.put("size_fav",user.getFavoriteTrips().size());
+        model.put("size_tick",user.getTripTickets().size());
 
         return "main";
     }

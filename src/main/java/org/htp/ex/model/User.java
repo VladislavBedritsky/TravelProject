@@ -38,6 +38,17 @@ public class User implements UserDetails {
     )
     private Set<Trip> favoriteTrips = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="tickets",
+            joinColumns = {@JoinColumn(name="user_id")},
+            inverseJoinColumns = {@JoinColumn(name="trip_id")}
+    )
+    private Set<Trip> tripTickets = new HashSet<>();
+
+    @OneToMany(mappedBy = "userU", fetch = FetchType.EAGER)
+    private Set<Ticket> tickets;
+
     public Integer getId() {
         return id;
     }
@@ -116,6 +127,22 @@ public class User implements UserDetails {
 
     public void setFavoriteTrips(Set<Trip> favoriteTrips) {
         this.favoriteTrips = favoriteTrips;
+    }
+
+    public Set<Trip> getTripTickets() {
+        return tripTickets;
+    }
+
+    public void setTripTickets(Set<Trip> tripTickets) {
+        this.tripTickets = tripTickets;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

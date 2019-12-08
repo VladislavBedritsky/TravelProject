@@ -2,6 +2,7 @@ package org.htp.ex.service;
 
 import org.htp.ex.dao.UserDAO;
 import org.htp.ex.model.Role;
+import org.htp.ex.model.Trip;
 import org.htp.ex.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -66,5 +67,14 @@ public class UserService implements UserDetailsService {
             }
         }
         userDAO.save(user);
+    }
+
+    public void like (User user, Trip trip) {
+        user.getFavoriteTrips().add(trip);
+        addUser(user);
+    }
+    public void dislike (User user, Trip trip) {
+        user.getFavoriteTrips().remove(trip);
+        addUser(user);
     }
 }

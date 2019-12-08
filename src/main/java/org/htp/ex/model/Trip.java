@@ -1,7 +1,5 @@
 package org.htp.ex.model;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -17,11 +15,11 @@ public class Trip {
     private String date;
     private String time;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "from_city")
     private City cityFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "where_city")
     private City cityWhere;
 
@@ -36,6 +34,16 @@ public class Trip {
     )
     private Set<User> userFavorites = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name="tickets",
+            joinColumns = {@JoinColumn(name="trip_id")},
+            inverseJoinColumns = {@JoinColumn(name="user_id")}
+    )
+    private Set<User> userTickets = new HashSet<>();
+
+    @OneToMany(mappedBy = "tripT",fetch = FetchType.EAGER)
+    private Set<Ticket> tickets;
 
     public Trip() { }
 
@@ -45,6 +53,10 @@ public class Trip {
         this.cityWhere = cityWhere;
         this.time = time;
         this.tripInfo = tripInfo;
+    }
+
+    public boolean userPurchase (User user) {
+        return userTickets.contains(user);
     }
 
     public boolean isQ (User user) {
@@ -105,6 +117,22 @@ public class Trip {
 
     public void setUserFavorites(Set<User> userFavorites) {
         this.userFavorites = userFavorites;
+    }
+
+    public Set<User> getUserTickets() {
+        return userTickets;
+    }
+
+    public void setUserTickets(Set<User> userTickets) {
+        this.userTickets = userTickets;
+    }
+
+    public Set<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(Set<Ticket> tickets) {
+        this.tickets = tickets;
     }
 
     @Override

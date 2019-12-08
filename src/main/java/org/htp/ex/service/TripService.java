@@ -2,12 +2,14 @@ package org.htp.ex.service;
 
 import org.htp.ex.dao.TripDAO;
 import org.htp.ex.model.Trip;
-import org.htp.ex.model.TripInfo;
 import org.htp.ex.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class TripService {
@@ -182,6 +184,10 @@ public class TripService {
     public void dislike (User user, Trip trip) {
         trip.getUserFavorites().remove(user);
         addTrip(trip);
+    }
+
+    public Iterable<Trip> findUserFavoriteTrips (Integer id) {
+        return tripDAO.findUserFavoriteTrips(id);
     }
 
 }
