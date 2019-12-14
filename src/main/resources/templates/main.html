@@ -2,58 +2,24 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
 </head>
-<body style="width:1350px;">
+<link rel="stylesheet" href="/static/main.css">
 
 
+<body>
 
-<div class="card" style="box-shadow:0 0 10px rgba(0,0,0,0.5);height: 250px; background: url('https://static.schools.by/images/header-bg/img-35.jpg') fixed;background-size: cover; ">
-    <div class="navbar navbar-expand-lg row">
-        <div class="col">
-            <a class="navbar-brand ml-5 " href="/" style="color:black;font-family: Bradley Hand, cursive; font-size:30px">
-                TravellSales
-            </a>
-        </div>
+<nav th:replace="fragments/navbar :: navbar"></nav>
 
-        <div class="navbar-brand col" href="#" style="color:black">
-            <div class="row">
-                <div class="col" align="center">
-                    <a class="navbar-brand" href="/user/ticket" style="color:black">My Tickets
-                        <i th:if="${size_tick == 0}" class="large material-icons " style="color: white">account_balance_wallet</i>
-                        <i th:if="${size_tick > 0}" class="large material-icons " style="color: green">account_balance_wallet</i>
-                    </a>
-
-                    <a class="navbar-brand " href="/user/favorite_trips" style="color:black">
-                        Favorite trips
-                        <i  th:if="${size_fav == 0}" class="large material-icons " style="color: #FFFF00">star_border</i>
-                        <i th:if="${size_fav > 0}" class="large material-icons " style="color: #FFD700">star</i>
-                    </a>
-
-
-                </div>
-
-            </div>
-        </div>
-        <div class="col" align="right">
-            <form th:action="@{/logout}" method="post">
-                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                <button  type="submit" class="btn btn-secondary" style="background-color: #708090; box-shadow: 0 0 5px rgba(0,0,0,0.5)">
-                    Sign out
-                </button>
-            </form>
-        </div>
-
-    </div>
-
-    <div class="card-body">
+<div class="card">
+    <div class="card-body pt-4">
 
         <form th:action="@{/main}" class="mt-2">
             <div class="row">
                 <div class="col"></div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="From" name="from">
+                    <input type="text" class="form-control" placeholder="From" name="from" required autofocus>
                 </div>
                 <div class="col">
-                    <input type="text" class="form-control" placeholder="Where" name="where">
+                    <input type="text" class="form-control" placeholder="Where" name="where" required autofocus>
                 </div>
                 <div class="col">
                     <input type="date" class="form-control" placeholder="Date" name="date">
@@ -64,7 +30,7 @@
                 <div class="col"></div>
             </div>
             <div align="center" class="mt-4">
-                <button type="submit" class="btn btn-secondary btn-lg" style="background-color: #2F4F4F; box-shadow: 0 0 5px rgba(0,0,0,0.5)">Find Tickets</button>
+                <button type="submit" class="btn btn-secondary btn-lg">Find Tickets</button>
             </div>
         </form>
     </div>
@@ -73,28 +39,28 @@
 
 <div th:if="${trip.tripInfo.amountComfortPlace+trip.tripInfo.amountEconomyPlace > 0}" class="container mt-4" th:each="trip:${trips}">
     <div class="row mx-auto" style="height:250px ; width:800px; border-radius:20px; box-shadow:0 0 10px rgba(0,0,0,0.5);">
-        <div th:if="${trip.userPurchase(currentUser) == false}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
- background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
+        <div th:if="${trip.userPurchase(authUser) == false}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
+ background-color:#A9F2EF">
 
             <a th:href="@{/user/like/{id}(id=${trip.id})}">
-            <i th:if="${trip.isQ(currentUser) == false}" class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: #FFFF00">star_half</i>
-            <i th:if="${trip.isQ(currentUser)}" class="large material-icons ml-2 mt-2" style="font-size: 2.1em;color: #FFD700">star</i>
+            <i th:if="${trip.isQ(authUser) == false}" class="large material-icons ml-2 mt-2"  id="image_starhalf">star_half</i>
+            <i th:if="${trip.isQ(authUser)}" class="large material-icons ml-2 mt-2" id="image_star">star</i>
             </a>
 
-            <a href="https://www.kalendarik.com.ua/online"><i class="large material-icons ml-2 pb-1" style="font-size: 2.0em;color: #696969; float:right">calendar_today</i></a>
+            <a href="https://www.kalendarik.com.ua/online"><i class="large material-icons ml-2 pb-1" id="image_calendar">calendar_today</i></a>
 
             <div class="row" style="height: 70px; margin-top:1px">
 
-                <div class="btn my-auto mx-auto col "  >
+                <div class="btn my-auto mx-auto col">
 
-                    <a th:href="@{/user/ticket/economy/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" style="font-size: 2.5em; color:#FF6347; text-decoration: none;">shopping_cart</a>
+                    <a th:href="@{/user/ticket/economy/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" id="image_card_1">shopping_cart</a>
 
                     <i style="color:#2F4F4F;">Economy(<b style="color:black" th:text="${trip.tripInfo.priceEconomyPlace}+'$'"></b>)
                     </i>
                 </div>
                 <div class="btn my-auto col">
 
-                    <a th:href="@{/user/ticket/comfort/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" style="font-size: 2.5em; color:#FF8C00;text-decoration: none; ">credit_card</a>
+                    <a th:href="@{/user/ticket/comfort/{id}(id=${trip.id})}" class="large material-icons ml-2 mt-2" id="image_card_2">credit_card</a>
                     <i style="color:#2F4F4F">Comfort(<b style="color:black" th:text="${trip.tripInfo.priceComfortPlace}+'$'"></b>)</i>
                 </div>
 
@@ -111,8 +77,8 @@
             <div class="row" style="height: 50px;">
                 <div class="col align-self-center" align="center" >
 
-                    <button style="border-radius:10px;background-color:#4682B4; box-shadow:0 0 10px rgba(0,0,0,0.5);" class="btn" data-toggle="modal" th:attr="data-target='#exampleModal'+${trip.id }">
-                      <h6 class="my-auto" style="color:#FFFFE0">Details</h6>
+                    <button class="btn" id="button_details" data-toggle="modal" th:attr="data-target='#exampleModal'+${trip.id }">
+                      <h6 class="my-auto">Details</h6>
                     </button>
 
                     <!-- Modal -->
@@ -144,8 +110,8 @@
 
         </div>
 
-        <div th:if="${trip.userPurchase(currentUser)}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
- background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYEK7JGPePgCQNTajlN_ZGGRZv9cGWJeKHB-zCS0ixp1I23DUJSw&s') fixed;background-size: contain;">
+        <div th:if="${trip.userPurchase(authUser)}" style="width:250px; border-right: 3px dashed #A9A9A9; border-radius: 20px 0 0 20px;
+ background-color: #22F894">
 
             <div class="row">
                 <div class="col" align="center">

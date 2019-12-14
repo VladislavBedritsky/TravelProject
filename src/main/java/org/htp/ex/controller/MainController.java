@@ -42,9 +42,13 @@ public class MainController {
         model.put("trips",tripService.findTripsAndCompareByDateAndTime(
                 tripService.findTrips(from,where,date,time)));
 
-        model.put("currentUser",user);
+        model.put("authUser",user);
         model.put("size_fav",user.getFavoriteTrips().size());
         model.put("size_tick",user.getTripTickets().size());
+
+        if (user != null) {
+            userService.userRole(user,model);
+        }
 
         return "main";
     }

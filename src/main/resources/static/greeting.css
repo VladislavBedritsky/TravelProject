@@ -1,0 +1,149 @@
+body {
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    width:1370px;
+}
+
+.main_input_form_search {
+    background: url(http://www.millattrade.com/wp-content/uploads/2016/01/travel_banner.jpg) no-repeat 80% 80%;
+    height:300px;
+    background-size:cover;
+}
+
+.main_input_form_search .h1 h1
+ {
+    padding-top:40px;
+    color:white;
+     font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+.main_input_form_search .h3 h3
+ {
+ font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    color:white;
+}
+
+.carouselExampleIndicators {
+    height:500px;
+}
+
+.carousel-control-prev-icon, .carousel-control-next-icon{
+    background-color:#AFEEEE;
+}
+
+#car_item_1 {
+     height:500px;
+     width:1000px;
+     margin-left:200px;
+     background: url(https://leisurevans.com/wp-content/themes/ltv-wp/img/shopping-tools/wallpapers/images/previews/2019-serenity-1.jpg) no-repeat ;
+     background-size:cover;
+     border-radius: 30px;
+}
+
+#car_item_1 h2 {
+     padding-left:30px;
+     padding-top:20px;
+     font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+ }
+
+#car_item_2 h3 {
+    padding-left:420px;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+    color: white;
+}
+
+#car_item_2 h2 {
+    padding-left:400px;
+    padding-top:30px;
+    color: white;
+    font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+#car_item_2 {
+     height:500px;
+     width:1000px;
+      margin-left:200px;
+      border-radius: 30px;
+      background: url(https://camo.envatousercontent.com/aa870743e5afb62d08b44bf229117a8d6b51a5f2/68747470733a2f2f732d6d656469612d63616368652d616b302e70696e696d672e636f6d2f6f726967696e616c732f61662f65352f33312f61666535333164363439303532653539663866353861336333636238613861352e6a7067) no-repeat 50% 50%;
+     background-size:cover;
+
+}
+
+#car_item_3 {
+     height:500px;
+     width:1000px;
+     margin-left:200px;
+     border-radius: 30px;
+     background: url(https://brazilbustravel.com/blog/wp-content/uploads/2017/09/bus-in-brazil.png) no-repeat 50% 50%;
+     background-size:cover;
+     font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+}
+
+
+
+.d-block {
+    height:500px;
+}
+
+.btn {
+    background-color: tomato;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    border: 0;
+}
+.container .btn:hover {
+    background-color:red;
+}
+
+.container #date::after,
+.container #time::after {
+    content: attr(data-title);
+}
+
+.container #date:hover::after,
+ .container #time:hover::after {
+       content: attr(data-title);
+           position: absolute; /* Абсолютное позиционирование */
+           left: -5%; top: -10%; /* Положение подсказки */
+           z-index: 1; /* Отображаем подсказку поверх других элементов */
+           background: rgba(255,255,230,0.8); /* Полупрозрачный цвет фона */
+           font-size: 11px; /* Размер текста подсказки */
+           padding: 5px 10px; /* Поля */
+
+}
+
+#row_phone .col {
+    height:600px;
+    margin-bottom:40px;
+}
+
+#row_phone #col2 {
+     background: url(https://www.busradar.com/images/app-ios.en-gb.png) no-repeat 50% 10%;
+     background-size:auto;
+
+}
+
+#row_phone #col3 {
+    background: url(https://www.busradar.com/images/app-android.en-gb.png) no-repeat 50% 10%;
+    background-size:auto;
+}
+
+#text_phone {
+    margin-top: 40px;
+}
+
+#footer {
+    height:30px;
+    margin-top:20px;
+    background-color:#C0C0C0;
+}
+
+#footer p, #footer .pull-right {
+    color:white;
+}
+
+#footer a, #end {
+    color: #1E90FF;
+}
+
+#footer a:hover {
+    color:tomato;
+}

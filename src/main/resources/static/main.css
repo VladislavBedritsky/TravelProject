@@ -1,0 +1,95 @@
+body {
+    width: 1350px;
+}
+
+.card {
+    box-shadow:0 0 10px rgba(0,0,0,0.5);
+    height: 250px;
+    background: url('https://static.schools.by/images/header-bg/img-35.jpg') fixed;
+    background-size: cover;
+}
+
+#name {
+    color:#172257;
+    font-family: Bradley Hand, cursive;
+    font-size:30px
+}
+
+#name:hover {
+    color:white;
+}
+
+#name1, #name2 {
+    color:#172257;
+}
+
+#name1:hover, #name2:hover {
+    color:white;
+}
+
+.card {
+    height:200px;
+}
+
+.card .btn {
+    background-color:tomato;
+    border:0;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+}
+
+.card .btn:hover {
+    background-color:red;
+
+}
+
+#image_starhalf,
+ #image_star{
+    font-size: 2.1em;
+    color: #FFFF00;
+}
+
+#image_starhalf:hover,
+ #image_star:hover{
+    color:red;
+    font-size: 2.2em;
+}
+
+#image_calendar {
+    font-size: 2.0em;
+    color: #696969;
+    float:right
+}
+
+#image_calendar:hover {
+    color: tomato;
+}
+
+#image_card_1 {
+    font-size: 2.5em;
+    color:#FF6347;
+    text-decoration: none;
+}
+
+#image_card_1:hover {
+    color:red;
+}
+
+#image_card_2 {
+    font-size: 2.5em;
+    color:#FF8C00;
+    text-decoration: none;
+}
+
+#image_card_2:hover {
+    color:red;
+}
+
+
+#button_details {
+        box-shadow: 0 0 5px rgba(0,0,0,0.5);
+        border: 0;
+}
+
+#button_details:hover {
+    background-color: tomato;
+}
