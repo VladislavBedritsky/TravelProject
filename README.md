@@ -1,4 +1,4 @@
-# TravelProject.
+# TravelProject.  https://traveltrips.herokuapp.com/
 
 This application helps people to find trips, order tickets and etc.
 
