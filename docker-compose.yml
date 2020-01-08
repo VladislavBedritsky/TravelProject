@@ -1,0 +1,26 @@
+version: "3"
+services:
+  mysqldb:
+    image: mysql:latest
+    networks:
+      - empl-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=travell
+    container_name: mysqldb
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: app
+    depends_on:
+      - mysqldb
+    ports:
+      - "8080:8080"
+    networks:
+      - empl-mysql
+    container_name: app
+
+networks:
+  empl-mysql:
