@@ -1,4 +1,8 @@
-# TravelProject.  https://traveltrips.herokuapp.com/
+# TravelProject.  
+https://traveltrips.herokuapp.com/
+
+This project just for experience and fun.
+The application is in progress.
 
 This application helps people to find trips, order tickets and etc.
 
